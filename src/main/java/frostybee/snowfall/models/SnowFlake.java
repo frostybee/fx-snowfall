@@ -27,9 +27,10 @@ public class SnowFlake {
     }
 
     public void update(double canvasWidth, double canvasHeight, double angle) {
-        y += 1 + dropSpeed + 5;
-        int windSpeed = 7;
-        x += (Math.sin(angle) * 2) + this.windSpeed * windSpeed;
+        //int windSpeed = 7;
+        //y += 1 + dropSpeed + 5;
+        y += 1 + dropSpeed ;        
+        x += (Math.sin(angle) * 2) + this.windSpeed;
         if (x > canvasWidth + (radius * 2)) {
             x = AppHelper.getRandomDouble(-25, (radius * -2));
         } else if (x < (radius * -2)) {
