@@ -1,16 +1,23 @@
 package frostybee.snowfall.helpers;
 
 /**
+ * Holds the settings of the snowfall simulation.
  *
  * @author frostybee
  */
 public class SimulationSettings {
 
+    public enum WindDirection {
+        RIGHT,
+        LEFT
+    }
+
     private int snowflakesNbr = 400;
     private double maxDropSpeed = 2.5;
     private double maxRadius = 7;
-    private double maxWindSpeed = 7;
+    private double maxWindSpeed = 2.5;
     private boolean isWindy = true;
+    private WindDirection windDirection = WindDirection.RIGHT;
 
     public SimulationSettings() {
     }
@@ -47,7 +54,7 @@ public class SimulationSettings {
         this.maxWindSpeed = maxWindSpeed;
     }
 
-    public boolean isIsWindy() {
+    public boolean isWindy() {
         return isWindy;
     }
 
@@ -55,4 +62,11 @@ public class SimulationSettings {
         this.isWindy = isWindy;
     }
 
+    public WindDirection getWindDirection() {
+        return windDirection;
+    }
+
+    public void setWindDirection(WindDirection windDirection) {
+        this.windDirection = windDirection;
+    }
 }

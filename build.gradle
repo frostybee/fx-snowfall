@@ -33,7 +33,7 @@ dependencies {
     compileOnly  "org.openjfx:javafx-base:$javafxVersion:javadoc"
     compileOnly  "org.openjfx:javafx-controls:$javafxVersion:javadoc"
     compileOnly  "org.openjfx:javafx-fxml:$javafxVersion:javadoc"
-    compileOnly  "org.openjfx:javafx-graphics:$javafxVersion:javadoc"
+    compileOnly  "org.openjfx:javafx-graphics:$javafxVersion:javadoc"    
 }
 
 application {       

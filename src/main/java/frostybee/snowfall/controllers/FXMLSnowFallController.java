@@ -7,6 +7,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -37,6 +39,16 @@ public class FXMLSnowFallController {
     private VBox vbSettings;
     @FXML
     private Spinner spMaxFlakeRadius;
+    @FXML
+    private ToggleButton tgbtnWindON;
+    @FXML
+    private ToggleButton tgbtnWindOFF;
+    @FXML
+    private ToggleButton tgbtnWindDirectionRight;
+    @FXML
+    private ToggleButton tgbtnWindDirectionLeft;
+    @FXML
+    private Slider sldWindSpeed;
 
     //
     private RenderingController renderer;
@@ -56,18 +68,25 @@ public class FXMLSnowFallController {
                 "-fx-border-color:#424242; -fx-border-width:1px;-fx-background-color:rgba(255, 255, 255, 0.87);");
         renderingPane.setStyle("-fx-border-color:#424242; -fx-border-width:1px;-fx-background-color:rgba(5, 5, 5, 0.97);");
         ImageView background = new ImageView(new Image(getClass().getResource("/images/montreal.jpg").toString()));
-        renderingPane.getChildren().add(background);
+        //renderingPane.getChildren().add(background);
         renderingPane.setBackground(Background.fill(Color.BLACK));
         renderingPane.getChildren().addAll(canvas);
         canvas.widthProperty().bind(renderingPane.widthProperty());
         canvas.heightProperty().bind(renderingPane.heightProperty());
-        //
+        //-- Group the wind toggle buttons.         
+        ToggleGroup tgWind = new ToggleGroup();
+        this.tgbtnWindOFF.setToggleGroup(tgWind);
+        this.tgbtnWindON.setToggleGroup(tgWind);
+        //-- Group the wind direction toggle buttons.      
+        ToggleGroup tgWindDirection = new ToggleGroup();
+        this.tgbtnWindDirectionRight.setToggleGroup(tgWindDirection);
+        this.tgbtnWindDirectionLeft.setToggleGroup(tgWindDirection);
+
         initEventHandlers();
     }
 
     private void initEventHandlers() {
         sldSnowflakesNbr.valueProperty().addListener((observable, oldValue, newValue) -> {
-            System.out.println("New value: " + newValue.intValue());
             settings.setSnowflakesNbr(newValue.intValue());
             enableResetButton();
         });
@@ -77,6 +96,10 @@ public class FXMLSnowFallController {
         });
         spMaxFlakeRadius.valueProperty().addListener((observable, oldValue, newValue) -> {
             settings.setMaxRadius(Double.parseDouble(newValue.toString()));
+            enableResetButton();
+        });
+        sldWindSpeed.valueProperty().addListener((observable, oldValue, newValue) -> {
+            settings.setMaxWindSpeed(newValue.doubleValue());
             enableResetButton();
         });
         btnStart.setOnAction((event) -> {
@@ -90,6 +113,20 @@ public class FXMLSnowFallController {
         btnReset.setOnAction((event) -> {
             resetSimulation();
             disableSimulationButtons(false, true, true);
+        });
+        tgbtnWindOFF.setOnAction((event) -> {
+            settings.setIsWindy(false);
+        });
+        tgbtnWindON.setOnAction((event) -> {
+            settings.setIsWindy(true);
+        });
+        tgbtnWindDirectionRight.setOnAction((event) -> {
+            settings.setWindDirection(SimulationSettings.WindDirection.RIGHT);
+            enableResetButton();
+        });
+        tgbtnWindDirectionLeft.setOnAction((event) -> {
+            settings.setWindDirection(SimulationSettings.WindDirection.LEFT);
+            enableResetButton();
         });
     }
 

@@ -12,6 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 /**
+ * Rendering controller of the snowfall simulation.
  *
  * @author frostybee
  */
@@ -56,9 +57,11 @@ public class RenderingController {
         snowflakes.clear();
         for (int i = 0; i < settings.getSnowflakesNbr(); i++) {
             //double radius = AppHelper.getRandomDouble(2.25, settings.getMaxRadius());                        
-            double radius = random.nextDouble(2.25, settings.getMaxRadius());                        
+            double radius = random.nextDouble(2.25, settings.getMaxRadius());
             double dropSpeed = AppHelper.getRandomDouble(-0.5, settings.getMaxDropSpeed());
-            double windSpeed = AppHelper.getRandomDouble(-0.3, 5.3);
+            double windSpeed = AppHelper.getRandomDouble(-0.3, settings.getMaxWindSpeed());            
+            windSpeed = (settings.getWindDirection() == SimulationSettings.WindDirection.RIGHT)
+                    ? windSpeed * -1 : windSpeed;
             //Invert the wind direction: windSpeed = windSpeed * -1;
             double x = AppHelper.getRandomDouble(0, canvas.getWidth());
             double y = AppHelper.getRandomDouble(0, 100);
@@ -74,7 +77,8 @@ public class RenderingController {
         snowflakes.forEach((SnowFlake flake) -> {
             flake.draw(gc);
             // Update the flake's next x/y.            
-            flake.update(canvas.getWidth(), canvas.getHeight(), angle);
+            flake.update(canvas.getWidth(), canvas.getHeight(),
+                    angle, settings.isWindy());
         });
     }
 
