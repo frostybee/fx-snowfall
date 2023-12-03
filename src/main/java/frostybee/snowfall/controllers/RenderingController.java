@@ -1,6 +1,5 @@
 package frostybee.snowfall.controllers;
 
-import frostybee.snowfall.helpers.AppHelper;
 import frostybee.snowfall.helpers.SimulationSettings;
 import frostybee.snowfall.models.SnowFlake;
 import java.util.ArrayList;
@@ -19,12 +18,11 @@ import javafx.scene.paint.Color;
 public class RenderingController {
 
     private final Random random = new Random();
-    private int nbrOfSnowflakes = 400;
-    private List<SnowFlake> snowflakes = new ArrayList<>();
+    private final List<SnowFlake> snowflakes = new ArrayList<>();
     private double angle = Math.random();
     private AnimationTimer animation;
-    private SimulationSettings settings;
-    private Canvas canvas;
+    private final SimulationSettings settings;
+    private final Canvas canvas;
 
     public RenderingController(Canvas canvas, SimulationSettings settings) {
         this.settings = settings;
@@ -58,14 +56,13 @@ public class RenderingController {
         for (int i = 0; i < settings.getSnowflakesNbr(); i++) {
             //double radius = AppHelper.getRandomDouble(2.25, settings.getMaxRadius());                        
             double radius = random.nextDouble(2.25, settings.getMaxRadius());
-            double dropSpeed = AppHelper.getRandomDouble(-0.5, settings.getMaxDropSpeed());
-            double windSpeed = AppHelper.getRandomDouble(-0.3, settings.getMaxWindSpeed());            
+            double dropSpeed = random.nextDouble(-0.5, settings.getMaxDropSpeed());
+            double windSpeed = random.nextDouble(-0.3, settings.getMaxWindSpeed());
             windSpeed = (settings.getWindDirection() == SimulationSettings.WindDirection.RIGHT)
                     ? windSpeed * -1 : windSpeed;
             //Invert the wind direction: windSpeed = windSpeed * -1;
-            double x = AppHelper.getRandomDouble(0, canvas.getWidth());
-            double y = AppHelper.getRandomDouble(0, 100);
-            //double y = AppHelper.getRandomDouble(0, canvas.getHeight());
+            double x = random.nextDouble(0, canvas.getWidth());
+            double y = random.nextDouble(0, 100);
             // Generate a random white'ish color... 
             Color color = Color.rgb(255, 255, 255, random.nextDouble(0.3, 0.9));
             snowflakes.add(new SnowFlake(x, y, radius, windSpeed, dropSpeed, color));

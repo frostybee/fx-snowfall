@@ -10,17 +10,17 @@ import javafx.stage.Stage;
 
 /**
  *
+ * An application that simulates a snowfall.
  *
  * @author frostybee.
  */
 public class SnowFallApp extends Application {
 
     private FXMLSnowFallController fxmlController;
+
     @Override
     public void start(Stage primaryStage) {
         try {
-            //-- 1) Load the scene graph from the specified FXML file and 
-            // associate it with its FXML controller.
             fxmlController = new FXMLSnowFallController();
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/SnowFallingApp_layout.fxml"));
             loader.setController(fxmlController);
@@ -31,7 +31,7 @@ public class SnowFallApp extends Application {
             primaryStage.setScene(scene);
             primaryStage.sizeToScene();
             // We just need to bring the main window to front.
-            primaryStage.setAlwaysOnTop(true);            
+            primaryStage.setAlwaysOnTop(true);
             primaryStage.show();
             primaryStage.setMaximized(true);
             primaryStage.setAlwaysOnTop(false);

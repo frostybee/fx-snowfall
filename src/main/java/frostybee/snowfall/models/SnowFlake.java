@@ -1,7 +1,5 @@
 package frostybee.snowfall.models;
 
-import frostybee.snowfall.helpers.AppHelper;
-import frostybee.snowfall.helpers.SimulationSettings;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -29,17 +27,21 @@ public class SnowFlake {
     }
 
     public void update(double canvasWidth, double canvasHeight, double angle, boolean isWindy) {
-        y += 1 + dropSpeed;        
+        y += 1 + dropSpeed;
+        // Apply wind or not?
         x += (isWindy) ? (Math.sin(angle) * 2) + this.windSpeed : (Math.sin(angle) * 2);
-        //x += (Math.sin(angle) * 2);        
         if (x > canvasWidth + (radius * 2)) {
-            x = AppHelper.getRandomDouble(-25, (radius * -2));
+            x = getRandomDouble(-25, (radius * -2));
         } else if (x < (radius * -2)) {
-            x = canvasWidth + AppHelper.getRandomDouble(radius * 2, 25);
+            x = canvasWidth + getRandomDouble(radius * 2, 25);
         } else if (y > canvasHeight) {
-            x = AppHelper.getRandomDouble(0, canvasWidth);
+            x = getRandomDouble(0, canvasWidth);
             y = radius * -2;
         }
+    }
+
+    private double getRandomDouble(double lower, double upper) {
+        return Math.random() * (upper - lower) + lower;
     }
 
     public void draw(GraphicsContext gc) {

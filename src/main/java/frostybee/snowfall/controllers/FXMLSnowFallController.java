@@ -1,10 +1,10 @@
 package frostybee.snowfall.controllers;
 
 import frostybee.snowfall.helpers.SimulationSettings;
-import javafx.animation.AnimationTimer;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.ToggleButton;
@@ -49,11 +49,13 @@ public class FXMLSnowFallController {
     private ToggleButton tgbtnWindDirectionLeft;
     @FXML
     private Slider sldWindSpeed;
+    @FXML
+    private CheckBox chbBackground;
 
     //
     private RenderingController renderer;
     private SimulationSettings settings;
-    private AnimationTimer animation;
+    private ImageView background;
     private Canvas canvas = new Canvas(1000, 1000);
 
     @FXML
@@ -67,8 +69,8 @@ public class FXMLSnowFallController {
         vbSettings.setStyle(
                 "-fx-border-color:#424242; -fx-border-width:1px;-fx-background-color:rgba(255, 255, 255, 0.87);");
         renderingPane.setStyle("-fx-border-color:#424242; -fx-border-width:1px;-fx-background-color:rgba(5, 5, 5, 0.97);");
-        ImageView background = new ImageView(new Image(getClass().getResource("/images/montreal.jpg").toString()));
-        //renderingPane.getChildren().add(background);
+        background = new ImageView(new Image(getClass().getResource("/images/montreal.jpg").toString()));
+        renderingPane.getChildren().add(background);
         renderingPane.setBackground(Background.fill(Color.BLACK));
         renderingPane.getChildren().addAll(canvas);
         canvas.widthProperty().bind(renderingPane.widthProperty());
@@ -86,6 +88,13 @@ public class FXMLSnowFallController {
     }
 
     private void initEventHandlers() {
+        chbBackground.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                background.setVisible(false);
+            } else {
+                background.setVisible(true);
+            }
+        });
         sldSnowflakesNbr.valueProperty().addListener((observable, oldValue, newValue) -> {
             settings.setSnowflakesNbr(newValue.intValue());
             enableResetButton();
